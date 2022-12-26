@@ -31,8 +31,26 @@ tasks:
   get-download-urls:
     cmds:
       - python scripts/get_download_urls.py merged/complete data/download_urls.jsonl
-    generates:
-      - data/download_urls.jsonl
+    status:
+      # this checks that the correct number of URLs are available
+      - ls merged/complete | wc -l | grep -q 9131
+      - cat data/download_urls.jsonl | wc -l | grep -q 9131
+
   get-pubmed-files:
     cmds:
       - "python scripts/filter_download_urls.py data/download_urls.jsonl | parallel curl --connect-timeout 10 --output-dir assets/pubmed -C - -O {}"
+    sources:
+      - data/download_urls.jsonl
+    deps: [get-download-urls]
+  extract-pubmed-files:
+    cmds:
+      - ls assets/pubmed | parallel --jobs 8 tar -xvzf assets/pubmed/{} -C extracted/pubmed
+      - find extracted/pubmed/ -type f -not -name '*.pdf' | parallel --jobs 8 rm -f {}
+    status:
+      # Counts PDF files in destination folder, will fail if it's 0
+      - find extracted/pubmed/ -type f -name '*.pdf' | wc -l | grep "\b0\b" --invert-match
+      # Counts the number of non-PDF files and detects whether it's 0
+      - find extracted/pubmed/ -type f -not -name '*.pdf' | wc -l | grep "\b0\b"
+  calculate-pdf-statistics:
+    cmds:
+      - python scripts/calculate_statistics.py

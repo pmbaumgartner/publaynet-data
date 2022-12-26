@@ -108,6 +108,7 @@ def main(
                 merged_pdf.save(buffer)
             data["merge_type"] = "complete"
             c_ct += 1
+        data["error"] = False
         pdf_data.append(data)
         pdf_progress.set_postfix({"s": s_ct, "i": i_ct, "c": c_ct, "e": e_ct})
     pd.DataFrame(pdf_data).to_csv(metadata_output)

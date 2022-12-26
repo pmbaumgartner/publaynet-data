@@ -166,3 +166,5 @@ merged/*
 
 # We want to keep the folders around just so that future users don't have to remember to make them.
 !**/.gitkeep
+
+.task/
