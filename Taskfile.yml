@@ -1,0 +1,38 @@
+version: "3"
+
+tasks:
+  download-pdfs:
+    cmds:
+      - curl -o assets/PubLayNet_PDF.tar.gz https://dax-cdn.cdn.appdomain.cloud/dax-publaynet/1.0.0/PubLayNet_PDF.tar.gz
+    generates:
+      - assets/PubLayNet_PDF.tar.gz
+  # these next 3 we don't actually use for anything since we want the PDFs, but they're here
+  # for reference to document the URLs.
+  download-images: curl -o assets/publaynet.tar.gz https://dax-cdn.cdn.appdomain.cloud/dax-publaynet/1.0.0/publaynet.tar.gz
+  download-images-parallel: "parallel --jobs 7 curl -o ./assets/train-{}.tar.gz https://dax-cdn.cdn.appdomain.cloud/dax-publaynet/1.0.0/train-{}.tar.gz ::: {0..6}"
+  download-labels: curl -o assets/labels.tar.gz https://dax-cdn.cdn.appdomain.cloud/dax-publaynet/1.0.0/labels.tar.gz
+  extract-pdfs:
+    cmds:
+      - tar -xvzf assets/PubLayNet_PDF.tar.gz -C extracted/
+    sources:
+      - assets/PubLayNet_PDF.tar.gz
+  validate-splits: python scripts/validate_splits.py extracted/pdfs
+  merge-pages:
+    cmds:
+      - python scripts/merge_pages.py extracted/pdfs merged/ data/merged_metadata.csv
+    generates:
+      - data/merged_metadata.csv
+    preconditions:
+      # this checks that the correct number of file are in each split
+      # if we use 'sources' instead, it has to hash 350k files, which takes too long
+      - ls extracted/pdfs/train | wc -l | grep -q 335703
+      - ls extracted/pdfs/dev | wc -l | grep -q 11245
+      - ls extracted/pdfs/test | wc -l | grep -q 11405
+  get-download-urls:
+    cmds:
+      - python scripts/get_download_urls.py merged/complete data/download_urls.jsonl
+    generates:
+      - data/download_urls.jsonl
+  get-pubmed-files:
+    cmds:
+      - "python scripts/filter_download_urls.py data/download_urls.jsonl | parallel curl --connect-timeout 10 --output-dir assets/pubmed -C - -O {}"

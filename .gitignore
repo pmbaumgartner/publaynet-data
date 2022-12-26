@@ -160,12 +160,9 @@ cython_debug/
 #.idea/
 
 # Project
-assets/
-data/
-extracted/
-merged/
+assets/*
+extracted/*
+merged/*
 
-!assets/.gitkeep
-!data/.gitkeep
-!extracted/.gitkeep
-!merged/.gitkeep
+# We want to keep the folders around just so that future users don't have to remember to make them.
+!**/.gitkeep

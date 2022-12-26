@@ -1,0 +1,5 @@
+pypdfium2==3.13.0
+xmltodict==0.13.0
+pqdm==0.2.0
+typer==0.7.0
+rich==12.6.0
