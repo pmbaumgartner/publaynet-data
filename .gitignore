@@ -168,3 +168,5 @@ merged/*
 !**/.gitkeep
 
 .task/
+*.tar.gz
+
