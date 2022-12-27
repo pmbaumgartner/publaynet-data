@@ -12,8 +12,9 @@ The steps are all documented in the [`Taskfile.yml`](https://taskfile.dev/) file
 4. Once PDFs are merged, we identify potentially "complete" article PDFs: defined as PDFs that are more than a single page, and consist of pages from the minimum page number (0) to the maximum page number.
    1. There are **`9131`** of these.
    2. For more details, see [`merging_nodes.md`](merging_notes.md).
+   3. Information on this process (split, page numbers) is in `data/merged_metadata.csv`.
 5. We make requests to the PubMed Open Access API to find the URL on their FTP to download the full versions of the _complete_ pdfs.
-   1. We made successful requests for **`9124`** articles
+   1. We made successful requests for **`9124`** articles. You can see these in `data/download_urls.jsonl`.
 6. Given the article file URL, we download the article's `.tar.gz` archive, which contains the article's PDF and other supplementary files.
    1. We successfully downloaded **`9124`** article archives.
 7. We extract the archive files then remove any non PDF files from those subfolders.
