@@ -2,7 +2,7 @@
 
 This repository is a data processing pipeline intended to download and extract full PDFs sourced from [PubLayNet](https://github.com/ibm-aur-nlp/PubLayNet). 
 
-The steps are all documented in the `Taskfile.yml` file, which uses Taskfile. This means you can replicate this workflow, but you'll need to install [Taskfile](https://taskfile.dev/installation/) first. If you don't want to do that, you can copy/paste the commands in the file into your own terminal, but none of the smart features of taskfile (e.g. checking if inputs have changed) will be available.
+The steps are all documented in the [`Taskfile.yml`](https://taskfile.dev/) file. This means you'll need to install [Taskfile](https://taskfile.dev/installation/) to replicate this workflow. If you don't want to do that, you can copy/paste the commands in the file into your own terminal, but none of the nice features of taskfile (e.g. checking if inputs have changed) will be available.
 
 ## Steps
 
@@ -22,7 +22,7 @@ The steps are all documented in the `Taskfile.yml` file, which uses Taskfile. Th
 
 
 ## Statistics
-_This comes from the ` python scripts/calculate_statistics.py` file._
+_This comes from the `compress-pubmed-articles` task with the `--verbose` flag on the command._
 
 ```
 Total Folders: 9827
@@ -60,7 +60,6 @@ Page Count Statistics
 │ 75%       │    9.0 │
 │ max       │   79.0 │
 └───────────┴────────┘
-
     Page Differences between    
  PubLaynet and PubMed Download  
 ┏━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
@@ -75,7 +74,6 @@ Page Count Statistics
 │ 75%        │             4.0 │
 │ max        │            75.0 │
 └────────────┴─────────────────┘
-
  Page Differences between PubLaynet 
         and PubMed Download         
        (as % of PubMed Pages)       
@@ -91,7 +89,6 @@ Page Count Statistics
 │ 75%        │                71.4 │
 │ max        │               157.1 │
 └────────────┴─────────────────────┘
-
             Articles with Fewer Pages in PubMed Download            
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
 ┃                                           ┃      Page Difference ┃
@@ -114,4 +111,36 @@ Page Count Statistics
 │ PMC5176077 - archdischild-2016-310875.pdf │           -1 (4 - 5) │
 │ PMC5256467 - 41235_2016_Article_25.pdf    │         -2 (13 - 15) │
 └───────────────────────────────────────────┴──────────────────────┘
+   Full Articles in   
+   Original Dataset   
+        Splits        
+┏━━━━━━━┳━━━━━━━━━━━━┓
+┃ Split ┃ N Articles ┃
+┡━━━━━━━╇━━━━━━━━━━━━┩
+│ dev   │        153 │
+│ test  │        136 │
+│ train │       8392 │
+└───────┴────────────┘
+N Annotated Pages from
+ Full Article set in  
+   Original Dataset   
+        Splits        
+┏━━━━━━━┳━━━━━━━━━━━━┓
+┃ Split ┃ N Articles ┃
+┡━━━━━━━╇━━━━━━━━━━━━┩
+│ dev   │        341 │
+│ test  │        303 │
+│ train │      34509 │
+└───────┴────────────┘
+Total Pages from Full 
+    Article set in    
+   Original Dataset   
+        Splits        
+┏━━━━━━━┳━━━━━━━━━━━━┓
+┃ Split ┃ N Articles ┃
+┡━━━━━━━╇━━━━━━━━━━━━┩
+│ dev   │       1222 │
+│ test  │        983 │
+│ train │      61268 │
+└───────┴────────────┘
 ```

@@ -51,6 +51,6 @@ tasks:
       - find extracted/pubmed/ -type f -name '*.pdf' | wc -l | grep "\b0\b" --invert-match
       # Counts the number of non-PDF files and detects whether it's 0 (which means we haven't removed non-PDF files yet)
       - find extracted/pubmed/ -type f -not -name '*.pdf' | wc -l | grep "\b0\b"
-  calculate-pdf-statistics:
+  compress-pubmed-articles:
     cmds:
       - python scripts/compress_articles.py extracted/pubmed publaynet-full-pdfs.tar.gz --verbose --merge-data-file=data/merged_metadata.csv

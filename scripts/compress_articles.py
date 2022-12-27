@@ -141,6 +141,34 @@ def main(
                 ("PMID - PDF", "Page Difference\n(PubMed - PubLayNet)"),
             )
         )
+        full_pdfs_per_split = complete_data.groupby("split").size()
+        print(
+            _series_to_table(
+                full_pdfs_per_split,
+                "Full Articles in Original Dataset Splits",
+                ("Split", "N Articles"),
+            )
+        )
+        annotated_pages_per_split = (
+            complete_data.groupby("split")["n_pages"].sum().astype(int)
+        )
+        print(
+            _series_to_table(
+                annotated_pages_per_split,
+                "N Annotated Pages from Full Article set in Original Dataset Splits",
+                ("Split", "N Articles"),
+            )
+        )
+        total_pages_per_split = (
+            complete_data.groupby("split")["page_count"].sum().astype(int)
+        )
+        print(
+            _series_to_table(
+                total_pages_per_split,
+                "Total Pages from Full Article set in Original Dataset Splits",
+                ("Split", "N Articles"),
+            )
+        )
     with console.status("Collecting and Compressing PDFs"):
         with TemporaryDirectory() as archive_dir:
             archive_dir = Path(archive_dir)
