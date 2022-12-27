@@ -53,4 +53,4 @@ tasks:
       - find extracted/pubmed/ -type f -not -name '*.pdf' | wc -l | grep "\b0\b"
   calculate-pdf-statistics:
     cmds:
-      - python scripts/compress_articles.py extracted/pubmed archive.tar.gz --verbose --merge-data-file=data/merged_metadata.csv
+      - python scripts/compress_articles.py extracted/pubmed publaynet-full-pdfs.tar.gz --verbose --merge-data-file=data/merged_metadata.csv
