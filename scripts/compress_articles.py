@@ -109,7 +109,7 @@ def main(
             _series_to_table(
                 complete_data["page_difference"].describe().round(1),
                 "Page Differences between PubLaynet and PubMed Download",
-                ("PMID - PDF", "Page Difference"),
+                ("Statistic", "Value"),
             )
         )
 
@@ -117,7 +117,7 @@ def main(
             _series_to_table(
                 complete_data["original_pct"].describe().round(1),
                 "Page Differences between PubLaynet and PubMed Download\n(as % of PubMed Pages)",
-                ("PMID - PDF", "Page Difference (%)"),
+                ("Statistic", "Value"),
             )
         )
 
