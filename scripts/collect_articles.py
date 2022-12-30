@@ -1,7 +1,6 @@
 import tarfile
 from pathlib import Path
 from shutil import copy
-from tempfile import TemporaryDirectory
 from typing import Optional, Tuple
 
 import pandas as pd
@@ -40,6 +39,10 @@ def main(
     ),
     output_file: Path = typer.Argument(
         ..., help="File to output PDFs from directories with a single file. (.tar.gz)"
+    ),
+    move_only: bool = typer.Option(
+        False,
+        help="Move the files into the `temp/` directory, but don't compress them.",
     ),
     verbose: bool = typer.Option(
         False,
@@ -169,18 +172,24 @@ def main(
                 ("Split", "N Articles"),
             )
         )
-    with console.status("Collecting and Compressing PDFs"):
-        with TemporaryDirectory() as archive_dir:
-            archive_dir = Path(archive_dir)
-            for path in paths_for_single_pdfs:
-                pmid = path.parent.stem
-                copy(path, archive_dir / f"{pmid}.pdf")
-
+    with console.status("Collecting PDFs"):
+        archive_dir = Path("temp")
+        archive_dir.mkdir(exist_ok=True)
+        for path in paths_for_single_pdfs:
+            pmid = path.parent.stem
+            copy(path, archive_dir / f"{pmid}.pdf")
+        if move_only:
+            print(
+                f"\nmove_only={move_only}. "
+                "Renamed files and moved into [green]temp/[/green]"
+            )
+        else:
             with tarfile.open(output_file, "w:gz") as tar:
                 tar.add(archive_dir, arcname=".")
-    print(
-        f"✔️ Compressed {len(paths_for_single_pdfs)} PDFs into [green]{output_file}[/green]."
-    )
+            print(
+                f"✔️ Compressed {len(paths_for_single_pdfs)} "
+                "PDFs into [green]{output_file}[/green]."
+            )
 
 
 if __name__ == "__main__":

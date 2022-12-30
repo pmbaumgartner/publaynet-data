@@ -53,4 +53,15 @@ tasks:
       - find extracted/pubmed/ -type f -not -name '*.pdf' | wc -l | grep "\b0\b"
   compress-pubmed-articles:
     cmds:
-      - python scripts/compress_articles.py extracted/pubmed publaynet-full-pdfs.tar.gz --verbose --merge-data-file=data/merged_metadata.csv
+      - python scripts/collect_articles.py extracted/pubmed publaynet-full-pdfs.tar.gz --verbose --merge-data-file=data/merged_metadata.csv
+  move-pubmed-articles:
+    cmds:
+      - python scripts/collect_articles.py extracted/pubmed publaynet-full-pdfs.tar.gz --move-only
+    generates:
+      - temp/*
+    status:
+      - ls temp/ | wc -l | grep -q 8681
+  collect-pubmed-subset:
+    cmds:
+      - python scripts/collect_subset.py temp/ pubmed-subset-archive.tar.gz --output-csv-path data/subset-metadata.csv
+    deps: [move-pubmed-articles]

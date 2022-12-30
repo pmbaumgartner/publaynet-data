@@ -163,10 +163,11 @@ cython_debug/
 assets/*
 extracted/*
 merged/*
+temp/*
+temp-subset/*
 
 # We want to keep the folders around just so that future users don't have to remember to make them.
 !**/.gitkeep
 
 .task/
 *.tar.gz
-
