@@ -63,5 +63,5 @@ tasks:
       - ls temp/ | wc -l | grep -q 8681
   collect-pubmed-subset:
     cmds:
-      - python scripts/collect_subset.py temp/ pubmed-subset-archive.tar.gz --output-csv-path data/subset-metadata.csv
+      - python scripts/collect_subset.py temp/ publaynet-subset-pdfs.tar.gz --output-csv-path data/subset-metadata.csv
     deps: [move-pubmed-articles]
